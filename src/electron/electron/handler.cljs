@@ -1,5 +1,5 @@
 (ns electron.handler
-  (:require ["electron" :refer [ipcMain dialog app autoUpdater]]
+  (:require
             [cljs-bean.core :as bean]
             ["fs" :as fs]
             ["buffer" :as buffer]
@@ -137,7 +137,8 @@
     (vec (cons {:path (utils/fix-win-path! path)} result))))
 
 (defn open-dir-dialog []
-  (p/let [result (.showOpenDialog dialog (bean/->js
+  (get-files "/Users/ul/brain")
+  #_(p/let [result (.showOpenDialog dialog (bean/->js
                                           {:properties ["openDirectory" "createDirectory" "promptToCreate"]}))
           result (get (js->clj result) "filePaths")]
     (p/resolved (first result))))
@@ -248,10 +249,7 @@
 
 (defn clear-cache!
   []
-  (let [graphs-dir (get-graphs-dir)]
-    (fs-extra/removeSync graphs-dir))
-
-  (let [path (.getPath ^object app "userData")]
+  (let [path (js/process.cwd)]
     (doseq [dir ["search" "IndexedDB"]]
       (let [path (path/join path dir)]
         (try
@@ -280,10 +278,10 @@
   (utils/get-ls-default-plugins))
 
 (defmethod handle :relaunchApp []
-  (.relaunch app) (.quit app))
+  #_#_(.relaunch app) (.quit app))
 
 (defmethod handle :quitApp []
-  (.quit app))
+  #_(.quit app))
 
 (defmethod handle :userAppCfgs [_window [_ k v]]
   (let [config (cfgs/get-config)]
@@ -322,7 +320,7 @@
   (plugin/uninstall! id))
 
 (defmethod handle :quitAndInstall []
-  (.quitAndInstall autoUpdater))
+  #_(.quitAndInstall autoUpdater))
 
 (defmethod handle :graphUnlinked [^js _win [_ repo]]
   (doseq [window (win/get-all-windows)]

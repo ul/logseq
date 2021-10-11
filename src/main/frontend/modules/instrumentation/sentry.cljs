@@ -3,7 +3,6 @@
             [frontend.util :as util]
             [frontend.config :as cfg]
             ["@sentry/browser" :as Sentry]
-            ["@sentry/electron" :as Sentry-electron]
             ["posthog-js" :as posthog]))
 
 (def config
@@ -15,6 +14,6 @@
    :tracesSampleRate 1.0})
 
 (defn init []
-  (let [config (clj->js config)
+  #_(let [config (clj->js config)
         init-fn (if (util/electron?) Sentry-electron/init Sentry/init)]
     (init-fn config)))

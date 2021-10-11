@@ -186,7 +186,7 @@
 
 (rum/defc demo-graph-alert
   []
-  (when (and (config/demo-graph?)
+  #_(when (and (config/demo-graph?)
              (not config/publishing?))
     (rum/with-context [[t] i18n/*tongue-context*]
       (ui/admonition

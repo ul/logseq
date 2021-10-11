@@ -91,7 +91,17 @@
                            (d/transact! conn tx-data {:dbsync? true}))
                          (ui-handler/re-render-root!)))))
 
+(defn connect-fs-watcher []
+  (let [socket (js/WebSocket. "wss://cybercraft.ainu-musical.ts.net:5000/fs-watcher")]
+    (set! (.-onmessage socket)
+          (fn [event]
+            (let [data (js/JSON.parse (.-data event))
+                  {:keys [type payload]} (bean/->clj data)]
+              (watcher-handler/handle-changed! type payload))))
+    (set! (.-onclose socket) #(js/setTimeout connect-fs-watcher 1000))))
+
 (defn listen!
   []
-  (listen-to-electron!)
-  (listen-persistent-dbs!))
+  (connect-fs-watcher)
+  #_(listen-to-electron!)
+  #_(listen-persistent-dbs!))

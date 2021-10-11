@@ -11,7 +11,7 @@
          :config (config/get-config)
 
          ;; FIXME: replace with :window/graph
-         :graph/current nil
+         :graph/current "/Users/ul/brain"
 
          ;; window -> current graph
          :window/graph {}}))

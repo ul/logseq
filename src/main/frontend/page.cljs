@@ -22,7 +22,6 @@
 (rum/defc current-page < rum/reactive
   {:did-mount    (fn [state]
                    (state/set-root-component! (:rum/react-component state))
-                   (state/setup-electron-updater!)
                    (ui/inject-document-devices-envs!)
                    (ui/inject-dynamic-style-node!)
                    (plugin-handler/host-mounted!)

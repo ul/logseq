@@ -124,7 +124,7 @@
                (if (util/electron?)
                  (when-not (:dbsync? (:tx-meta tx-report))
                    ;; sync with other windows if needed
-                   (p/let [graph-has-other-window? (ipc/ipc "graphHasOtherWindow" repo)]
+                   #_(p/let [graph-has-other-window? (ipc/ipc "graphHasOtherWindow" repo)]
                     (when graph-has-other-window?
                       (ipc/ipc "dbsync" repo {:data (db->string (:tx-data tx-report))}))))
                  (do

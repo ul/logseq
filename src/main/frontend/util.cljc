@@ -70,8 +70,9 @@
    (defn electron?
      []
      (when (and js/window (gobj/get js/window "navigator"))
-       (let [ua (string/lower-case js/navigator.userAgent)]
-         (string/includes? ua " electron")))))
+       ;; Hardcode it to return true as we are going to communicate to the backend
+       ;; by emulating electron's ipc.
+       true)))
 
 #?(:cljs
    (defn mocked-open-dir-path

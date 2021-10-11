@@ -3,7 +3,7 @@
             ["fs" :as fs]
             ["chokidar" :as watcher]
             [electron.utils :as utils]
-            ["electron" :refer [app]]))
+            ))
 
 ;; TODO: explore different solutions for different platforms
 ;; 1. https://github.com/Axosoft/nsfw
@@ -11,12 +11,21 @@
 (defonce polling-interval 10000)
 (defonce file-watcher (atom nil))
 
+(defonce *connections (atom #{}))
+
+(defn add-connection [connection]
+  (swap! *connections conj connection))
+
+(defn rm-connection [connection]
+  (swap! *connections disj connection))
+
+(defn broadcast [message]
+  (doseq [connection @*connections]
+    (.send ^js (.-socket connection) message)))
+
 (defonce file-watcher-chan "file-watcher")
 (defn send-file-watcher! [^js win type payload]
-  (when-not (.isDestroyed win)
-    (.. win -webContents
-        (send file-watcher-chan
-              (bean/->js {:type type :payload payload})))))
+  (broadcast (js/JSON.stringify (bean/->js {:type type :payload payload}) )))
 
 (defn- publish-file-event!
   [win dir path event]
@@ -58,7 +67,7 @@
              (println "Watch error happened: "
                       {:path path})))
 
-      (.on app "quit" #(.close watcher))
+
 
       true)))
 

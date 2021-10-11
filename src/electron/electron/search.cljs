@@ -4,7 +4,7 @@
             ["better-sqlite3" :as sqlite3]
             [clojure.string :as string]
             [electron.utils :refer [logger] :as utils]
-            ["electron" :refer [app]]))
+            ))
 
 (defonce version "0.0.1")
 
@@ -73,21 +73,21 @@
 
 (defn get-search-dir
   []
-  (let [path (.getPath ^object app "userData")]
+  (let [path (js/process.cwd)]
     (path/join path "search")))
 
 (defonce search-version "search.version")
 
 (defn get-search-version
   []
-  (let [path (.getPath ^object app "userData")
+  (let [path (js/process.cwd)
         path (path/join path search-version)]
     (when (fs/existsSync path)
       (.toString (fs/readFileSync path)))))
 
 (defn write-search-version!
   []
-  (let [path (.getPath ^object app "userData")
+  (let [path (js/process.cwd)
         path (path/join path search-version)]
     (fs/writeFileSync path version)))
 

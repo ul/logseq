@@ -19,7 +19,7 @@
 
 (defonce state
   (let [document-mode? (or (storage/get :document/mode?) false)
-       current-graph (let [graph (storage/get :git/current-repo)]
+       current-graph (let [graph "logseq_local_/Users/ul/brain" #_(storage/get :git/current-repo)]
                        (when graph (ipc/ipc "setCurrentGraph" graph))
                        graph)]
    (atom
@@ -37,7 +37,7 @@
       :repo/changed-files                    nil
       :nfs/user-granted?                     {}
       :nfs/refreshing?                       nil
-      :instrument/disabled?                  (storage/get "instrument-disabled")
+      :instrument/disabled?                  true #_(storage/get "instrument-disabled")
       ;; TODO: how to detect the network reliably?
       :network/online?                       true
       :indexeddb/support?                    true
@@ -999,17 +999,6 @@
                   (:electron/user-cfgs @state))
            cfgs (if (object? cfgs) (bean/->clj cfgs) cfgs)]
           (set-state! :electron/user-cfgs cfgs))))
-
-(defn setup-electron-updater!
-  []
-  (when (util/electron?)
-    (js/window.apis.setUpdatesCallback
-      (fn [_ args]
-        (let [data (bean/->clj args)
-              pending? (not= (:type data) "completed")]
-          (set-state! :electron/updater-pending? pending?)
-          (when pending? (set-state! :electron/updater data))
-          nil)))))
 
 (defn set-file-component!
   [component]

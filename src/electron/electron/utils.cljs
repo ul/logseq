@@ -3,7 +3,7 @@
             ["fs-extra" :as fs]
             ["path" :as path]
             [cljs-bean.core :as bean]
-            ["electron" :refer [app BrowserWindow]]))
+            ))
 
 (defonce *win (atom nil))
 (defonce mac? (= (.-platform js/process) "darwin"))
@@ -25,7 +25,7 @@
 
 (defn get-ls-dotdir-root
   []
-  (let [lg-dir (str (.getPath app "home") "/.logseq")]
+  (let [lg-dir (str (js/process.cwd) "/.logseq")]
     (if-not (fs/existsSync lg-dir)
       (and (fs/mkdirSync lg-dir) lg-dir)
       lg-dir)))
@@ -79,7 +79,7 @@
 
 (defn get-focused-window
   []
-  (.getFocusedWindow BrowserWindow))
+  #_(.getFocusedWindow BrowserWindow))
 
 (defn get-win-from-sender
   [^js evt]

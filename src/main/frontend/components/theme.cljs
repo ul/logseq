@@ -33,7 +33,7 @@
         (ui-handler/persist-right-sidebar-state!))
      [sidebar-open? restored-sidebar? sidebar-blocks-len])
 
-    (rum/use-effect!
+    #_(rum/use-effect!
      #(when lsp-enabled?
         (plugin-handler/setup-install-listener! t))
      [t])

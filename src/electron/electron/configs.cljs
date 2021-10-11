@@ -2,11 +2,10 @@
   (:require
     ["fs-extra" :as ^js fs]
     ["path" :as ^js path]
-    ["electron" :refer [^js app] :as electron]
     [cljs.reader :as reader]))
 
-(defonce dot-root (.join path (.getPath app "home") ".logseq"))
-(defonce cfg-root (.getPath app "userData"))
+(defonce dot-root (.join path (js/process.cwd) ".logseq"))
+(defonce cfg-root (js/process.cwd))
 (defonce cfg-path (.join path cfg-root "configs.edn"))
 
 (defn- ensure-cfg

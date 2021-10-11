@@ -284,7 +284,7 @@
     (when (mobile-util/native-iphone?) (.add cl "is-native-iphone"))
     (when (mobile-util/native-iphone-without-notch?) (.add cl "is-native-iphone-without-notch"))
     (when (mobile-util/native-ipad?) (.add cl "is-native-ipad"))
-    (when (util/electron?)
+    #_(when (util/electron?)
       (js/window.apis.on "full-screen" #(js-invoke cl (if (= % "enter") "add" "remove") "is-fullscreen"))
       (p/then (ipc/ipc :getAppBaseInfo) #(let [{:keys [isFullScreen]} (js->clj % :keywordize-keys true)]
                                            (and isFullScreen (.add cl "is-fullscreen")))))))

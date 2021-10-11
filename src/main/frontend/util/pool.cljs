@@ -29,7 +29,9 @@
                          (absolute-path-for-worker (ipc/ipc :getDirname))
                          "/static")
            path (str static-path "/js/parser-worker.js")
-           path (if (or (util/electron?)
+           ;; This where our fake electron check falters.
+           path (config/asset-uri path)
+           #_#_path (if (or (util/electron?)
                         (mobile-util/is-native-platform?))
                   path
                   (config/asset-uri path))]
