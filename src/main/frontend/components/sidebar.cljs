@@ -6,7 +6,6 @@
             [frontend.components.journal :as journal]
             [frontend.components.repo :as repo]
             [frontend.components.right-sidebar :as right-sidebar]
-            [frontend.components.settings :as settings]
             [frontend.components.theme :as theme]
             [frontend.components.widgets :as widgets]
             [frontend.components.plugins :as plugins]
@@ -366,7 +365,7 @@
         loading-files? (when current-repo (state/sub [:repo/loading-files? current-repo]))
         journals-length (state/sub :journals-length)
         latest-journals (db/get-latest-journals (state/get-current-repo) journals-length)
-        preferred-format (state/sub [:me :preferred_format])
+        ;; preferred-format (state/sub [:me :preferred_format])
         logged? (user-handler/logged?)
         me (state/sub :me)]
     (rum/with-context [[t] i18n/*tongue-context*]
@@ -477,7 +476,6 @@
                 state)}
   [state route-match main-content]
   (let [{:keys [open-fn]} state
-        me (state/sub :me)
         current-repo (state/sub :git/current-repo)
         granted? (state/sub [:nfs/user-granted? (state/get-current-repo)])
         theme (state/sub :ui/theme)

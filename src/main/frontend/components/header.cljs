@@ -7,7 +7,6 @@
             [frontend.components.repo :as repo]
             [frontend.components.right-sidebar :as sidebar]
             [frontend.components.svg :as svg]
-            [frontend.components.widgets :as widgets]
             [frontend.config :as config]
             [frontend.context.i18n :as i18n]
             [frontend.fs.sync :as fs-sync]
@@ -18,7 +17,6 @@
             [frontend.handler.route :as route-handler]
             [frontend.handler.user :as user-handler]
             [frontend.handler.web.nfs :as nfs]
-            [frontend.handler.web.nfs :as nfs-handler]
             [frontend.mobile.util :as mobile-util]
             [frontend.modules.shortcut.core :as shortcut]
             [frontend.state :as state]
@@ -26,8 +24,6 @@
             [frontend.util :as util]
             [reitit.frontend.easy :as rfe]
             [rum.core :as rum]
-            [frontend.mobile.util :as mobile-util]
-            [frontend.fs.sync :as fs-sync]
             [cljs.core.async :as a]))
 
 (rum/defc home-button []
