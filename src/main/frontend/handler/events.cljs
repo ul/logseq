@@ -20,6 +20,7 @@
             [frontend.handler.editor :as editor-handler]
             [frontend.handler.notification :as notification]
             [frontend.handler.page :as page-handler]
+            [frontend.handler.search :as search-handler]
             [frontend.handler.ui :as ui-handler]
             [frontend.modules.shortcut.core :as st]
             [frontend.commands :as commands]
@@ -70,11 +71,8 @@
     close-fn)))
 
 (defmethod handle :graph/added [[_ repo]]
-  ;; TODO: add ast/version to db
-  (let [_conn (conn/get-conn repo false)
-        ; ast-version (d/datoms @conn :aevt :ast/version)
-        ]
-    (db/set-key-value repo :ast/version db-schema/ast-version)))
+  (db/set-key-value repo :ast/version db-schema/ast-version)
+  (search-handler/rebuild-indices!))
 
 (defmethod handle :graph/migrated [[_ _repo]]
   (js/alert "Graph migrated."))
